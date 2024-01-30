@@ -4,10 +4,11 @@
     ViewData["Title"] = "Create";
 }
 
-
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
-    @ViewBag.ErrorMessage
+    <div class="message-style">
+        @ViewBag.ErrorMessage
+    </div>
 }
 <html>
     <head>
@@ -19,10 +20,10 @@
     <body>
         <header>
             <h4>Create Account</h4>
-            <p>Please Create your account</p>
         </header>
         <main>
-            <section class="test">
+            <section>
+                <p>Your username must contain 6 or more characters.</p>
                 <p>Your password must contain:</p>
                 <ul>
                     <li>8 Characters</li>
@@ -30,8 +31,6 @@
                     <li>A lowercase character</li>
                     <li>A number</li>
                 </ul>
-
-
             </section>
             <section>
                 <hr />
@@ -40,12 +39,12 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Username" class="control-label"></label>
-                            <input asp-for="Username" class="form-control" placeholder="Create Username" />
+                            <input asp-for="Username" class="form-control" placeholder="Ex. JSmith" />
                             <span asp-validation-for="Username" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" placeholder="Create Password" />
+                            <input asp-for="Password" class="form-control" placeholder="Ex. Example123" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-group">

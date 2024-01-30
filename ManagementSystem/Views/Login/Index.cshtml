@@ -2,14 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
-    if (!string.IsNullOrEmpty(ViewBag.Message))
-    {
-        @ViewBag.Message;
-    }
+    
     if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
-        @ViewBag.ErrorMessage;
-        
+        <div class="message-style">
+            @ViewBag.ErrorMessage
+        </div>
     }
 }
 
@@ -42,7 +40,7 @@
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>                        
                         <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" value="Login" class="btn btn-primary" />
                         </div>
                     </form>                
                 </div>
