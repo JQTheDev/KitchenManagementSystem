@@ -18,10 +18,21 @@
     </head>
     <body>
         <header>
-            <h4>User</h4>
-
+            <h4>Create Account</h4>
+            <p>Please Create your account</p>
         </header>
         <main>
+            <section class="test">
+                <p>Your password must contain:</p>
+                <ul>
+                    <li>8 Characters</li>
+                    <li>An uppercase character</li>
+                    <li>A lowercase character</li>
+                    <li>A number</li>
+                </ul>
+
+
+            </section>
             <section>
                 <hr />
                 <div class="row">
@@ -47,9 +58,10 @@
     </body>
 </html>
     <div>
-        <a asp-action="Index">Back to List</a>
+        <p>Already have an account?<a asp-action="Index">Login</a> </p>
     </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }
