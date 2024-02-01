@@ -31,7 +31,7 @@ namespace MSTesting
                     Username = "Jquadri24",
                     Password = "JQAccount11"
                 };
-                context.User.Add(new User { Username= "Jquadri24", Password = "JQAccount11"});
+                context.User.Add(new User { Username= "Jquadri24", Password = HashPassword("JQAccount11") });
                 context.SaveChanges();
 
                 var result = controller.Index(user) as ViewResult;
@@ -77,7 +77,7 @@ namespace MSTesting
             {
                 var controller = new LoginController(context);
 
-                context.User.Add(new User { Username = "User", Password = "CorrectPassword" });
+                context.User.Add(new User { Username = "User", Password = HashPassword("CorrectPassword") });
                 context.SaveChanges();
 
                 var user = new User
@@ -223,6 +223,12 @@ namespace MSTesting
                 Assert.IsNotNull(result);
              
             }
+        }
+
+        private string HashPassword(string password)
+        {
+
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 
