@@ -37,7 +37,8 @@ namespace MSTesting
                 var result = controller.Index(user) as ViewResult;
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual("Success", result.ViewName);
+                Assert.IsNotNull(result.ViewData["Message"]);
+                Assert.AreEqual("Login Successful", result.ViewData["Message"]);
             }
         }
 

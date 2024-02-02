@@ -29,7 +29,7 @@ namespace ManagementSystem.Controllers
             }
             if (BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password))
             {
-                return View("Success");
+                RedirectToAction("Index", "Home");
             }
             else
             {
