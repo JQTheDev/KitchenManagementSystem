@@ -14,7 +14,6 @@ namespace ManagementSystem.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.Message = "Login Successful";
             return View();
         }
 

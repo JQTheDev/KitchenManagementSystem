@@ -1,2 +1,90 @@
-﻿body {
+﻿body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: steelblue;
+    color: black;
+}
+
+#updateButton{
+    background-color: blue;
+}
+
+#homeButton, #logoutButton {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 60px);
+    padding: 20px;
+}
+
+.welcome-note, .funding-note {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.middle-content {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: auto;
+}
+.middle-content button {
+    height: fit-content;
+    padding: 10px 15px;
+}
+.middle-content label {
+    flex-basis: 100%; /* Ensures the label takes full width on its own line */
+    text-align: center; /* Keeps the label centered */
+    margin-bottom: 10px; /* Adds some space between the label and the input/button */
+}
+.bottom-buttons {
+display: flex;
+justify-content: center;
+gap: 30px;
+margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="number"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width: calc(100% - 22px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    header button {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    .action-button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
 }

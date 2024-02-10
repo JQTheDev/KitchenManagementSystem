@@ -1,25 +1,39 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 
-    if (!String.IsNullOrEmpty(ViewBag.Message))
-    {
-        @ViewBag.Message;
-    }
 }
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Kitchen Management System</title>
-        <link rel="stylesheet" href="~/css/home.css" />
-    </head>
-    <body>
-        <header>
-
-        </header>
-        <main>
-
-        </main>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Home</title>
+    <link rel="stylesheet" href="~/css/home.css">
+</head>
+<body>
+    <header>
+        <button id="homeButton">Home</button>
+        <h4>Kitchen Managament System</h4>
+        <button id="logoutButton">Logout</button>
+    </header>
+    <main>
+        <div class="welcome-note">
+            Welcome <span id="userName">Name</span> - Please select whichever action you'd like to do.
+        </div>
+        <div class="funding-note">
+            Note: Government funding will be divided by 365 to give a minimum
+            amount allocated to each day of the year. The minimum amount is £30,000.
+        </div>
+        <div class="middle-content">
+            <label for="govFunding">Government funding for the year:</label>
+            <input id="govFunding" type="number" placeholder="Enter funding" min="30000" required>
+            <button id="updateButton">Update</button>
+        </div>
+        <div class="bottom-buttons">
+            <button class="action-button">Meal Planner</button>
+            <button class="action-button">Query Stock</button>
+        </div>
+    </main>
+    <script src="~/js/home.js"></script>
+</body>
 </html>
