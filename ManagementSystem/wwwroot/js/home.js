@@ -51,5 +51,7 @@ async function GetFunding() {
     }
 
 }
-
+document.getElementById("queryBtn").addEventListener("click", function () {
+    window.location.href = '/Stock/Index';
+});
 document.getElementById("updateButton").addEventListener("click", UpdateFunding);
