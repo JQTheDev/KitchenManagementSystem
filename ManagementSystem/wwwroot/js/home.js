@@ -52,6 +52,6 @@ async function GetFunding() {
 
 }
 document.getElementById("queryBtn").addEventListener("click", function () {
-    window.location.href = '/Stock/Index';
+    window.location.href = '/Stock/IngredientQuery';
 });
 document.getElementById("updateButton").addEventListener("click", UpdateFunding);
