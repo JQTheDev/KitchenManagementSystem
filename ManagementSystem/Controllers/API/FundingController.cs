@@ -20,14 +20,14 @@ namespace ManagementSystem.Controllers.API
             _context = context;
         }
 
-        // GET: api/Funding
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Funding>>> GetFunding()
         {
             return await _context.Funding.ToListAsync();
         }
 
-        // GET: api/Funding/5
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<Funding>> GetFunding(int id)
         {
@@ -41,8 +41,7 @@ namespace ManagementSystem.Controllers.API
             return funding;
         }
 
-        // PUT: api/Funding/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFunding(int id, Funding funding)
         {
@@ -72,8 +71,7 @@ namespace ManagementSystem.Controllers.API
             return NoContent();
         }
 
-        // POST: api/Funding
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        
         [HttpPost]
         public async Task<ActionResult<Funding>> PostFunding(Funding funding)
         {
@@ -83,7 +81,7 @@ namespace ManagementSystem.Controllers.API
             return CreatedAtAction("GetFunding", new { id = funding.FundingId }, funding);
         }
 
-        // DELETE: api/Funding/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFunding(int id)
         {
