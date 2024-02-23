@@ -39,7 +39,7 @@ async function GetFunding() {
         const uri = "https://localhost:44342/api/Funding/1"
         const response = await fetch(uri)
         if (!response.ok) {
-            throw new Error("Could not load funcing");
+            throw new Error("Could not load funding");
         }
         else {
             const data = await response.json();
@@ -51,7 +51,12 @@ async function GetFunding() {
     }
 
 }
-document.getElementById("queryBtn").addEventListener("click", function () {
+document.getElementById("ingredientQueryBtn").addEventListener("click", function () {
     window.location.href = '/Stock/IngredientQuery';
 });
+
+document.getElementById("mealQueryBtn").addEventListener("click", function () {
+    window.location.href = '/Stock/MealQuery';
+});
+
 document.getElementById("updateButton").addEventListener("click", UpdateFunding);

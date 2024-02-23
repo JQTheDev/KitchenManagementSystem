@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Kitchen Management System</title>
+    <link rel="stylesheet" href="~/css/layout/mainLayout.css">
+    </head>
+    <body>
+        <header>
+            <button id="homeButton">Home</button>
+            <h4>Kitchen Management System</h4>
+            <button id="logoutButton">Logout</button>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        @await RenderSectionAsync("Scripts", required: false)
+        <script src="~/js/layout/mainLayout.js"></script>
+    </body>
+</html>

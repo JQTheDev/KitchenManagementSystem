@@ -17,6 +17,11 @@ namespace ManagementSystem.Controllers
             return View();
         }
 
-        
+        public ActionResult MealQuery()
+        {
+            return View();
+        }
+
+
     }
 }
