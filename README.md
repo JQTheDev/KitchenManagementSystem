@@ -12,14 +12,14 @@ I use Nunit to test key features of my application.
 
 
 Tech Stack
-C#
-MVC .Net Core
-Visual Studio 2022 .Net 8
-Javascript
-CSS
-HTML
-Entity Framework
-Rest API CRUD Methods for database queries
-Microsoft SQL
+C#,
+MVC .Net Core,
+Visual Studio 2022 .Net 8,
+Javascript,
+CSS,
+HTML,
+Entity Framework,
+Rest API CRUD Methods for database queries,
+Microsoft SQL,
 Testing:
 Nunit
