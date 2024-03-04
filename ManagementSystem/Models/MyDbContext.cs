@@ -11,6 +11,8 @@ namespace ManagementSystem.Models
 
         public DbSet<Funding> Funding { get; set; }
 
+        public DbSet<Ingredient> Ingredient { get; set; }
+
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
                 
