@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 header {
@@ -17,11 +18,19 @@ header {
     border: 1px solid black;
 }
 
-button {
+button, select {
     padding: 10px 15px;
     font-size: 16px;
     cursor: pointer;
-    border: none;
     background-color: steelblue;
     color: black;
+    display: flex; /* Makes the element a block for centering */
+    margin: 0 auto; /* Centers the block element horizontally */
+    width: auto;
+}
+
+/* Additional styles for select elements to ensure they are not too wide */
+select {
+    max-width: 50%; /* Prevents select from being too wide */
+    background-color: grey;
 }

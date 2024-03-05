@@ -3,10 +3,11 @@
 });
 
 function fetchIngredients() {
-    const uri = "https://localhost:44342/api/Ingredients"
-    fetch(uri)
+    const endpoint = "https://localhost:44342/api/Ingredients"
+    fetch(endpoint)
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             populateIngredients(data);
         })
         .catch(error => {
@@ -19,8 +20,8 @@ function populateIngredients(ingredients) {
 
     ingredients.forEach(ingredient => {
         const option = document.createElement('option');
-        option.value = ingredient.IngredientId;
-        option.textContent = ingredient.Name;
+        option.value = ingredient.ingredientId;
+        option.textContent = ingredient.name;
         selectElement.appendChild(option);
     });
 }
