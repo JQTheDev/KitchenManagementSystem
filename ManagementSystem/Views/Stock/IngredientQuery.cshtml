@@ -1,24 +1,24 @@
 ﻿@{
     Layout = "_MainLayout";
+    ViewBag.Title = "Ingredient Query";
 }
+@Html.Partial("_IngredientModal");
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ingredient Query</title>
     <link rel="stylesheet" href="~/css/ingredientQuery.css">
 </head>
 <body>
     <header>
-
     </header>
     <main>
-        <h4>Here is where you can find out what ingredients you have aswell as their nutrional information and quantity.
+        <h4>
+            Here is where you can find out what ingredients you have aswell as their nutrional information and quantity.
             Please select one of the ingredients below you'd like to query.
         </h4>
-        <div class ="middle-content">
+        <div class="middle-content">
             <select id="ingredientList">
                 <option>Please Select</option>
             </select>
@@ -30,6 +30,13 @@
         </div>
     </main>
     <script src="~/js/ingredientQuery.js"></script>
+@*     @section Styles {
+        <link rel="stylesheet" href="~/css/layout/ingredientModal.css">
+    }
+
+    @section Scripts {
+        <script src="~/js/layout/ingredientModal.js"></script>
+    } *@
 </body>
 
 </html>
