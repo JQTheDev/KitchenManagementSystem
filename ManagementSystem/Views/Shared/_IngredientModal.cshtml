@@ -1,15 +1,80 @@
 ﻿
 <div id="ingredientModal" class="modal" style="display:none;">
     <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <span class="close-button">xxx</span>
         <h2>Add New Ingredient</h2>
-        <!-- Form for adding a new ingredient -->
+        
         <form id="addIngredientForm">
             <!-- Input fields for the form -->
-            <label for="ingredientName">Ingredient Name:</label>
-            <input type="text" id="ingredientName" name="ingredientName" required>
-            <!-- More fields as needed -->
+            <label for="name">Ingredient Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="calories">Calories(g):</label>
+            <input type="number" id="calories" required>
+
+            <label for="salt">Salt(g):</label>
+            <input type="number" id="salt" required>
+
+            <label for="fat">Fat(g):</label>
+            <input type="number" id="fat" required>
+
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" required>
+
             <input type="submit" value="Submit">
         </form>
     </div>
+    <style>
+        /* Targeting all labels and input fields within the form */
+        #addIngredientForm label,
+        #addIngredientForm input {
+            display: block; /* This makes each element take up the full width */
+            margin-bottom: 10px; /* Adds some space between the elements */
+        }
+
+            /* Optionally, you can style the input fields to look a bit better */
+            #addIngredientForm input
+            {
+                width: 100%; /* Use the full width of the form */
+                padding: 8px; /* Add some padding for aesthetics */
+                box-sizing: border-box; /* Ensures padding doesn't affect overall width */
+            }
+
+        .modal-content {
+            
+            width: 400px; 
+            margin: auto; 
+            padding: 20px; 
+            background-color: tan; /* Just an example, adjust as needed */
+        }
+    </style>
+    <script>
+        async function CreateIngredient() {
+            const endpoint = "https://localhost:44342/api/Ingredient";
+
+            const ingredient = {
+                name: document.getElementById('name').value,
+                calories: document.getElementById('calories').value,
+                salt: document.getElementById('salt').value,
+                fat: document.getElementById('fat').value,
+                quantity: document.getElementById('quantity').value,
+            };
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(ingredient);
+            });
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => {
+                alert("unsuccessful");
+
+                console.error(error))
+            });
+        }
+        document.getElementById("addIngredientForm").addEventListener("submit", CreateIngredient);
+    </script>
 </div>

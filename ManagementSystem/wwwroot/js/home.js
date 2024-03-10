@@ -7,8 +7,8 @@ async function UpdateFunding() {
         FundingId: 1,
         Amount: document.getElementById("govFunding").value
     };
-    const uri = "https://localhost:44342/api/Funding/1"
-    fetch(uri, {
+    const endpoint = "https://localhost:44342/api/Funding/1"
+    fetch(endpoint, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ async function UpdateFunding() {
         
     .then(response => {
         if (!response.ok) {
-            throw new Error("response not okay. check something")
+            throw new Error("Unsuccesful", response.statusText)
         }
         else {
             alert("Funding successfully updated")

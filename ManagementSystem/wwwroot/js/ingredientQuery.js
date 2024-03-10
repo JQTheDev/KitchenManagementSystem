@@ -3,13 +3,11 @@
     setupModalTrigger();
 });
 
-console.log(document.getElementById('addIngredientBtn')); // Should not be null
-console.log(document.getElementById('ingredientModal')); // Should not be null
 function setupModalTrigger() {
-    // Assuming 'addIngredientBtn' is the ID of your "Add Ingredient" button
+    // Setting up Pop up tab
     var btn = document.getElementById('addIngredientBtn');
     var modal = document.getElementById('ingredientModal');
-    var span = document.getElementsByClassName('close-button')[0]; // assuming there's only one
+    var span = document.getElementsByClassName('close-button')[0];
 
     // When the user clicks the button, open the modal 
     btn.onclick = function () {
