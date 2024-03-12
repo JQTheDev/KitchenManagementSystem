@@ -15,11 +15,11 @@ public class Ingredient
 
 	public int? Calories { get; set; }
 
-    public int? Salt { get; set; }
+    public float? Salt { get; set; }
 
-    public int? Fat { get; set; }
-
-    public int? Quantity { get; set; }
+    public float? Fat { get; set; }
+    [Required]
+    public int Quantity { get; set; }
 
     public Ingredient()
 	{

@@ -50,3 +50,4 @@ function populateIngredients(ingredients) {
         selectElement.appendChild(option);
     });
 }
+

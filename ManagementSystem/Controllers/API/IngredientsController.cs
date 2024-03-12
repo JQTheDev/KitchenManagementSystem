@@ -71,6 +71,12 @@ namespace ManagementSystem.Controllers.API
         [HttpPost]
         public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
         {
+            bool ingreditentExists = await _context.Ingredient.AnyAsync(x => x.Name == ingredient.Name);
+            if (ingreditentExists)
+            {
+                throw new Exception("Ingredient with this name already exists");
+            }
+
             _context.Ingredient.Add(ingredient);
             await _context.SaveChangesAsync();
 
