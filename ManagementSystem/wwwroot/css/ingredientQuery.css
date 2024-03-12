@@ -10,14 +10,11 @@
     gap: 10px;
     justify-content: center;
     margin: auto;
-}
-
-.middle-content {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin: auto;
     margin-bottom: 20px; /* Adds bottom margin for spacing */
+}
+#updateBtn{
+    text-align: left;
+    justify-content: left;
 }
 
 .bottom-buttons {
