@@ -12,11 +12,23 @@ function setupModalTrigger() {
     // When the user clicks the button, open the modal 
     btn.onclick = function () {
         modal.style.display = "block";
+        document.getElementById('ingredientId').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('calories').value = '';
+        document.getElementById('salt').value = '';
+        document.getElementById('fat').value = '';
+        document.getElementById('quantity').value = '';
     };
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         modal.style.display = "none";
+        document.getElementById('ingredientId').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('calories').value = '';
+        document.getElementById('salt').value = '';
+        document.getElementById('fat').value = '';
+        document.getElementById('quantity').value = '';
     };
 
     // Close the modal if the user clicks outside of it
@@ -51,7 +63,7 @@ function populateIngredients(ingredients) {
     });
 }
 
-function updateIngredient() {
+async function updateIngredient() {
     const selectElement = document.getElementById("ingredientList")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const ingredientId = selectedOption.id;
@@ -63,11 +75,13 @@ function updateIngredient() {
         if (!response.ok) {
             throw new Error("could not complete request")
         }
-        response.json()
+        return response.json();
     })
-    .then(ingredient => {
-        // Assuming you want to populate fields in your modal, you'd do something like this:
-        document.getElementById('name').textContent = ingredient.name;
+        .then(ingredient => {
+            console.log(ingredient);
+            // Assuming you want to populate fields in your modal, you'd do something like this:
+        document.getElementById('ingredientId').value = ingredient.id;
+        document.getElementById('name').value = ingredient.name;
         document.getElementById('calories').value = ingredient.calories;
         document.getElementById('salt').value = ingredient.salt;
         document.getElementById('fat').value = ingredient.fat;
