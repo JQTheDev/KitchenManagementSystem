@@ -3,6 +3,7 @@
     ViewBag.Title = "Ingredient Query";
 }
 @Html.Partial("_IngredientModal")
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,8 +22,30 @@
                 <option>Please Select</option>
             </select>
         </div>
-        <button id="updateBtn">Update</button>
+        <div class="bottom-middle">
+            <button id="updateBtn">Update</button>
+            <button id="deleteBtn">Delete</button>
+        </div>
         
+
+        <div id="updateSection" style="display:none;">
+            <hr>
+            <h4>Update Ingredient</h4>
+            <input type="text" id="updateId" hidden>
+
+            <label for="updateName">Ingredient Name:</label>
+            <input type="text" id="updateName">
+
+            <input type="number" id="updateCalories" hidden>
+            <input type="number" id="updateSalt" hidden>
+            <input type="number" id="updateFat" hidden>
+
+            <label for="updateQuantity">Quantity:</label>
+            <input type="number" id="updateQuantity">
+
+            <button id="saveUpdateBtn">Save</button>
+        </div>
+
         <div class="bottom-buttons">
             <button class="action-button" id="addMealBtn">Add Meal</button>
             <button class="action-button" id="addIngredientBtn">Add Ingredient</button>

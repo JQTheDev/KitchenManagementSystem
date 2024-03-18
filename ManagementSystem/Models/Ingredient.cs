@@ -19,7 +19,7 @@ public class Ingredient
 
     public float? Fat { get; set; }
     [Required]
-    public int Quantity { get; set; }
+    public int Quantity { get; set; } = 0;
 
     public Ingredient()
 	{

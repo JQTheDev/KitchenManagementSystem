@@ -20,9 +20,6 @@
             <label for="fat">Fat(g):</label>
             <input type="number" id="fat" step="0.01">
 
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" required>
-
             <input type="submit" value="Submit">
         </form>
     </div>
@@ -51,22 +48,25 @@
     <script>
         async function CreateIngredient(event) {
             event.preventDefault();
-            const ingredientId = document.getElementById('ingredientId').value;
-            let endpoint = "https://localhost:44342/api/Ingredients";
-            let method = 'POST'; // Default to adding a new ingredient
+            const endpoint = "https://localhost:44342/api/Ingredients";
 
+            let _calories = document.getElementById('calories').value || 0;
+            let _salt = document.getElementById('salt').value || 0;
+            let _fat = document.getElementById('fat').value || 0;
             const ingredient = {
-                // Your existing ingredient fields
+                name: document.getElementById('name').value,
+                calories: _calories,
+                salt: _salt,
+                fat: _fat,
+                quantity: 0
             };
-
-            // Adjust endpoint and method if updating an ingredient
-            if (ingredientId) {
-                endpoint += `/${ingredientId}`;
-                method = 'PUT';
+            if (ingredient.name === null) {
+                Alert("Name cannot be empty");
+                return;
             }
 
             fetch(endpoint, {
-                method: method,
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -74,24 +74,17 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert(ingredientId ? "Ingredient Update Successful" : "Ingredient Creation Successful");
-                    document.getElementById('ingredientId').value = ''; // Reset the hidden field
-                    // Reset other fields here as well
-                    document.getElementById('name').value = '';
-                    document.getElementById('calories').value = '';
-                    document.getElementById('salt').value = '';
-                    document.getElementById('fat').value = '';
-                    document.getElementById('quantity').value = '';
-
-                } else {
+                    alert("Ingredient Creation Successful");
+                }
+                else {
                     alert("Ingredient already exists.");
                 }
             })
             .catch(error => {
-                alert("Operation unsuccessful", error);
+                alert("Ingredient Creation unsuccessful", error);
                 console.error(error);
             });
         }
-
+        document.getElementById("addIngredientForm").addEventListener("submit", CreateIngredient);
     </script>
 </div>

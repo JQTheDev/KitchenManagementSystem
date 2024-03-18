@@ -12,12 +12,11 @@ function setupModalTrigger() {
     // When the user clicks the button, open the modal 
     btn.onclick = function () {
         modal.style.display = "block";
-        document.getElementById('ingredientId').value = '';
+        /*document.getElementById('ingredientId').value = '';*/
         document.getElementById('name').value = '';
         document.getElementById('calories').value = '';
         document.getElementById('salt').value = '';
         document.getElementById('fat').value = '';
-        document.getElementById('quantity').value = '';
     };
 
     // When the user clicks on <span> (x), close the modal
@@ -28,7 +27,6 @@ function setupModalTrigger() {
         document.getElementById('calories').value = '';
         document.getElementById('salt').value = '';
         document.getElementById('fat').value = '';
-        document.getElementById('quantity').value = '';
     };
 
     // Close the modal if the user clicks outside of it
@@ -80,17 +78,98 @@ async function updateIngredient() {
         .then(ingredient => {
             console.log(ingredient);
             // Assuming you want to populate fields in your modal, you'd do something like this:
-        document.getElementById('ingredientId').value = ingredient.id;
-        document.getElementById('name').value = ingredient.name;
-        document.getElementById('calories').value = ingredient.calories;
-        document.getElementById('salt').value = ingredient.salt;
-        document.getElementById('fat').value = ingredient.fat;
-        document.getElementById('quantity').value = ingredient.quantity;
-        document.getElementById('ingredientModal').style.display = 'block';
+            document.getElementById("updateId").value = ingredient.ingredientId;
+            document.getElementById('updateName').value = ingredient.name;
+            document.getElementById('updateCalories').value = ingredient.calories;
+            document.getElementById('updateSalt').value = ingredient.salt;
+            document.getElementById('updateFat').value = ingredient.fat;
+            document.getElementById('updateQuantity').value = ingredient.quantity;
+            document.getElementById("updateSection").style.display = "block";
+
     })
     .catch(error => {
         console.error('Error:', error);
     });
 
 }
-document.getElementById("updateBtn").addEventListener("click", updateIngredient);
+
+async function saveIngredient() {
+
+    const _ingredientId = document.getElementById("updateId").value;
+    const _name = document.getElementById("updateName").value;
+    const _quantity = document.getElementById("updateQuantity").value;
+    const _salt = document.getElementById("updateSalt").value;
+    const _calories = document.getElementById("updateCalories").value;
+    const _fat = document.getElementById("updateFat").value;
+
+
+    const endpoint = `https://localhost:44342/api/Ingredients/${_ingredientId}`;
+    const data = {
+        ingredientID: _ingredientId,
+        name: _name,
+        calories: _calories,
+        salt: _salt,
+        fat: _fat,
+        quantity: _quantity
+    };
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            alert('Update successful');
+            document.getElementById("updateSection").style.display = "none";
+            document.getElementById("updateId").value = "";
+            document.getElementById("updateQuantity").value = "";
+        } else {
+            throw new Error('Failed to update ingredient');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while updating the ingredient.');
+    }
+}
+async function deleteIngredient() {
+    const selectElement = document.getElementById("ingredientList")
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const ingredientId = selectedOption.id;
+
+    const endpoint = `https://localhost:44342/api/Ingredients/${ingredientId}`;
+    fetch(endpoint, {
+        method: "DELETE"
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error in deleting ingredient.");
+            }
+            else {
+                alert("Ingredient deletion successful.");
+                //get page to refresh
+            }
+            return response;
+        })
+        .catch(error => {
+        console.log("catch error", error);
+        
+    });
+
+}
+document.getElementById("updateBtn").addEventListener("click", function (){
+
+    const visible = document.getElementById("updateSection");
+
+    if(visible.style.display === "none"){
+        updateIngredient();
+    }
+    else {
+        visible.style.display = "block";
+    }
+});
+document.getElementById("saveUpdateBtn").addEventListener("click", saveIngredient);
+document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);  //get page to refresh
