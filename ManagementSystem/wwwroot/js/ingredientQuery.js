@@ -140,6 +140,11 @@ async function deleteIngredient() {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const ingredientId = selectedOption.id;
 
+    if (ingredientId === "") {
+        alert("Please select a valid ingredient to delete.");
+        return;
+    }
+
     const endpoint = `https://localhost:44342/api/Ingredients/${ingredientId}`;
     fetch(endpoint, {
         method: "DELETE"
@@ -150,7 +155,7 @@ async function deleteIngredient() {
             }
             else {
                 alert("Ingredient deletion successful.");
-                //get page to refresh
+                location.reload();
             }
             return response;
         })
@@ -160,16 +165,24 @@ async function deleteIngredient() {
     });
 
 }
-document.getElementById("updateBtn").addEventListener("click", function (){
+document.getElementById("updateBtn").addEventListener("click", function () {
+    const selectElement = document.getElementById("ingredientList");
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const ingredientId = selectedOption.id;
+
+    if (ingredientId === "") {
+        alert("Please select a valid ingredient to update.");
+        return;
+    }
 
     const visible = document.getElementById("updateSection");
 
-    if(visible.style.display === "none"){
-        updateIngredient();
-    }
-    else {
+    if (visible.style.display === "block" || visible.style.display === "") {
+        visible.style.display = "none";
+    } else {
         visible.style.display = "block";
+        updateIngredient();
     }
 });
 document.getElementById("saveUpdateBtn").addEventListener("click", saveIngredient);
-document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);  //get page to refresh
+document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);

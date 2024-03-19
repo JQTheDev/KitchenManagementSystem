@@ -75,6 +75,8 @@
             .then(response => {
                 if (response.ok) {
                     alert("Ingredient Creation Successful");
+                    location.reload();
+
                 }
                 else {
                     alert("Ingredient already exists.");
