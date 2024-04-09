@@ -42,3 +42,10 @@
     margin-top: 10px;
     background-color: blue;
 }
+
+.sorting-options {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}

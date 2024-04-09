@@ -1,7 +1,30 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     fetchIngredients();
     setupModalTrigger();
+    setupSortingOptions();
 });
+
+function setupSortingOptions() {
+    document.getElementById('sortDefault').addEventListener('change', function () {
+        // Ensure at least one checkbox is always checked
+        if (!this.checked && !document.getElementById('sortAlphabetical').checked) {
+            this.checked = true;
+        } else if (this.checked) {
+            document.getElementById('sortAlphabetical').checked = false;
+            fetchIngredients(); // Re-fetch and populate ingredients
+        }
+    });
+
+    document.getElementById('sortAlphabetical').addEventListener('change', function () {
+        // Ensure at least one checkbox is always checked
+        if (!this.checked && !document.getElementById('sortDefault').checked) {
+            this.checked = true;
+        } else if (this.checked) {
+            document.getElementById('sortDefault').checked = false;
+            fetchIngredients(); // Re-fetch and populate ingredients
+        }
+    });
+}
 
 function setupModalTrigger() {
     // Setting up Pop up tab
@@ -52,10 +75,18 @@ function fetchIngredients() {
 
 function populateIngredients(ingredients) {
     const selectElement = document.getElementById('ingredientList');
+    selectElement.innerHTML = '<option>Please Select</option>'; // Clear existing options
+
+    // Determine sorting order
+    const sortAlphabetical = document.getElementById('sortAlphabetical').checked;
+
+    if (sortAlphabetical) {
+        ingredients.sort((a, b) => a.name.localeCompare(b.name));
+    }
 
     ingredients.forEach(ingredient => {
         const option = document.createElement('option');
-        option.id = ingredient.ingredientId;
+        option.value = ingredient.ingredientId; // It's better to use value attribute for the value
         option.textContent = ingredient.name;
         selectElement.appendChild(option);
     });
@@ -64,7 +95,7 @@ function populateIngredients(ingredients) {
 async function updateIngredient() {
     const selectElement = document.getElementById("ingredientList")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const ingredientId = selectedOption.id;
+    const ingredientId = selectedOption.value;
 
     const endpoint = `https://localhost:44342/api/Ingredients/${ingredientId}`
 
@@ -138,7 +169,7 @@ async function saveIngredient() {
 async function deleteIngredient() {
     const selectElement = document.getElementById("ingredientList")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const ingredientId = selectedOption.id;
+    const ingredientId = selectedOption.value;
 
     if (ingredientId === "") {
         alert("Please select a valid ingredient to delete.");
@@ -168,21 +199,20 @@ async function deleteIngredient() {
 document.getElementById("updateBtn").addEventListener("click", function () {
     const selectElement = document.getElementById("ingredientList");
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const ingredientId = selectedOption.id;
+    const ingredientId = selectedOption.value; // Corrected to .value
 
-    if (ingredientId === "") {
+    if (ingredientId === "Please Select") { // Assuming the placeholder option's value is "Please Select"
         alert("Please select a valid ingredient to update.");
         return;
     }
 
-    const visible = document.getElementById("updateSection");
+    // Always fetch ingredient details when the update button is clicked
+    updateIngredient();
 
-    if (visible.style.display === "block" || visible.style.display === "") {
-        visible.style.display = "none";
-    } else {
-        visible.style.display = "block";
-        updateIngredient();
-    }
+    // Toggle the visibility of the update section
+    const visible = document.getElementById("updateSection");
+    visible.style.display = (visible.style.display === "none" || visible.style.display === "") ? "block" : "none";
 });
+
 document.getElementById("saveUpdateBtn").addEventListener("click", saveIngredient);
 document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);
