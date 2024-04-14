@@ -13,6 +13,9 @@ namespace ManagementSystem.Models
 
         public DbSet<Ingredient> Ingredient { get; set; }
 
+        public DbSet<Meal> Meal { get; set; }
+
+        public DbSet<MealIngredient> MealIngredient { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
                 

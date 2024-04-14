@@ -1,21 +1,51 @@
 ﻿@{
     Layout = "_MainLayout";
+    ViewBag.Title = "Meal Query";
 }
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Meal Query</title>
     <link rel="stylesheet" href="~/css/mealQuery.css">
 </head>
-
 <body>
     <main>
+        <h4>
+            Create a new meal by entering the meal name and adding ingredients with their quantities.
+        </h4>
 
+        <form id="mealForm">
+            <div class="meal-name">
+                <label for="mealName">Meal Name:</label>
+                <input type="text" id="mealName" name="mealName" required>
+            </div>
+
+            <div class="ingredient-selection">
+                <label for="ingredientSelect">Choose Ingredient:</label>
+                <select id="ingredientSelect" >
+                    <option value="">Please Select</option>
+                    
+                </select>
+
+                <label for="ingredientQuantity">Quantity:</label>
+                <input type="number" id="ingredientQuantity" name="ingredientQuantity" min="0.25" step="0.25">
+            </div>
+
+            <div class="ingredient-list">
+                <h4>Selected Ingredients:</h4>
+                <ul id="ingredientList">
+                    
+                </ul>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" id="addIngredientToMealBtn">Add Ingredient to Meal</button>
+                <button type="submit" id="saveMealBtn">Save Meal</button>
+            </div>
+        </form>
     </main>
+
     <script src="~/js/mealQuery.js"></script>
 </body>
-
 </html>
