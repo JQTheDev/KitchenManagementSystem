@@ -41,6 +41,23 @@ namespace ManagementSystem.Controllers.API
             return mealIngredient;
         }
 
+        // GET: api/MealIngredients/ByMeal/5
+        [HttpGet("ByMeal/{mealId}")]
+        public async Task<ActionResult<IEnumerable<MealIngredient>>> GetIngredientsByMeal(int mealId)
+        {
+            var mealIngredients = await _context.MealIngredient
+                                                .Where(mi => mi.MealId == mealId)
+                                                .Include(mi => mi.Ingredient)
+                                                .ToListAsync();
+
+            if (mealIngredients == null || mealIngredients.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return mealIngredients;
+        }
+
         // PUT: api/MealIngredients/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

@@ -58,6 +58,44 @@ function setupModalTrigger() {
         }
     };
 }
+document.getElementById('checkQuantityBtn').addEventListener('click', async function () {
+    const mealId = document.getElementById('mealList').value;
+    if (!mealId) {
+        alert('Please select a meal to check its quantity.');
+        return;
+    }
+
+    try {
+        // Fetch the ingredients needed for the selected meal
+        const mealIngredientsResponse = await fetch(`https://localhost:44342/api/MealIngredients/ByMeal/${mealId}`);
+
+        if (!mealIngredientsResponse.ok) throw new Error('Failed to fetch meal ingredients');
+        const mealIngredients = await mealIngredientsResponse.json();
+
+        // Map to fetch all ingredients current stock
+        const ingredientStockPromises = mealIngredients.map(ing =>
+            fetch(`https://localhost:44342/api/Ingredients/${ing.ingredientId}`).then(res => res.json())
+        );
+
+        // Resolve all fetches concurrently
+        const ingredientsStock = await Promise.all(ingredientStockPromises);
+
+        // Calculate the minimum number of complete meals that can be made
+        const mealsCount = mealIngredients.reduce((minMeals, ingredient) => {
+            const ingredientStock = ingredientsStock.find(stock => stock.ingredientId === ingredient.ingredientId);
+            const maxMealsFromIngredient = Math.floor(ingredientStock.quantity / ingredient.quantity);
+            return Math.min(minMeals, maxMealsFromIngredient);
+        }, Infinity);
+
+        // Display result
+        const resultText = `You can make ${mealsCount} complete meals with the current stock.`;
+        document.getElementById('mealQuantityResult').textContent = resultText;
+
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while calculating the possible meal quantity.');
+    }
+});
 
 function deleteMeal() {
     const selectElement = document.getElementById('mealList');
@@ -86,13 +124,6 @@ function deleteMeal() {
         });
 }
 
-function checkQuantity() {
-    // This function would likely make a GET request to an endpoint that
-    // returns how many of the selected meal could be made with current stock.
-    alert('This feature is not yet implemented.');
-}
-
-document.getElementById('checkQuantityBtn').addEventListener('click', checkQuantity);
 document.getElementById('ingredientQueryBtn').addEventListener('click', function () {
     window.location.href = '/Stock/IngredientQuery'; 
 });

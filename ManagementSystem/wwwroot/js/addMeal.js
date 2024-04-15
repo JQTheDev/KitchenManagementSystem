@@ -41,8 +41,12 @@ function addIngredientToList() {
     const ingredientSelect = document.getElementById('ingredientSelect');
     const quantityInput = document.getElementById('ingredientQuantity');
     if (ingredientSelect.value && quantityInput.value) {
+        const selectedOption = ingredientSelect.options[ingredientSelect.selectedIndex];
+        const ingredientName = selectedOption.text; 
+
         mealIngredients.push({
             ingredientId: ingredientSelect.value,
+            ingredientName: ingredientName, 
             quantity: parseFloat(quantityInput.value)
         });
         updateIngredientList();
@@ -53,15 +57,17 @@ function addIngredientToList() {
     }
 }
 
+
 function updateIngredientList() {
     const ingredientListElement = document.getElementById('ingredientList');
-    ingredientListElement.innerHTML = ''; 
+    ingredientListElement.innerHTML = '';
     mealIngredients.forEach(ingredient => {
         const li = document.createElement('li');
-        li.textContent = `Ingredient ID: ${ingredient.ingredientId}, Quantity: ${ingredient.quantity}`;
+        li.textContent = `Ingredient: ${ingredient.ingredientName}, Quantity: ${ingredient.quantity}`;
         ingredientListElement.appendChild(li);
     });
 }
+
 
 function saveMeal(event) {
     event.preventDefault();
