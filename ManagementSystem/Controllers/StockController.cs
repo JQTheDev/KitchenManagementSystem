@@ -22,6 +22,11 @@ namespace ManagementSystem.Controllers
             return View();
         }
 
+        public ActionResult AddMeal()
+        {
+            return View();
+        }
+
 
     }
 }

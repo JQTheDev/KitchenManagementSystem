@@ -214,5 +214,9 @@ document.getElementById("updateBtn").addEventListener("click", function () {
     visible.style.display = (visible.style.display === "none" || visible.style.display === "") ? "block" : "none";
 });
 
+document.getElementById('mealQueryBtn').addEventListener('click', function () {
+    window.location.href = '/Stock/MealQuery'; // Replace with your actual path or URL
+});
+
 document.getElementById("saveUpdateBtn").addEventListener("click", saveIngredient);
 document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);

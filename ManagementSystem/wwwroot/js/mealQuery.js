@@ -1,113 +1,104 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    const mealForm = document.getElementById('mealForm');
-    mealForm.addEventListener('submit', saveMeal);
-
-    document.getElementById('addIngredientToMealBtn').addEventListener('click', addIngredientToList);
-
-
-    fetchIngredients();
+    fetchMeals();
+    setupModalTrigger();
 });
 
-let mealIngredients = [];
-
-function fetchIngredients() {
-    const endpoint = "https://localhost:44342/api/Ingredients";
+function fetchMeals() {
+    const endpoint = "https://localhost:44342/api/Meals";
     fetch(endpoint)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            populateIngredients(data);
+            populateMeals(data);
         })
         .catch(error => {
-            console.error('Error fetching ingredients:', error);
+            console.error('Error fetching meals:', error);
         });
 }
 
-function populateIngredients(ingredients) {
-    const selectElement = document.getElementById('ingredientSelect');
-    selectElement.innerHTML = '<option value="">Please Select</option>';
+function populateMeals(meals) {
+    const selectElement = document.getElementById('mealList');
+    meals.sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by default
 
-    ingredients.sort((a, b) => a.name.localeCompare(b.name));
-
-    ingredients.forEach(ingredient => {
+    meals.forEach(meal => {
         const option = document.createElement('option');
-        option.value = ingredient.ingredientId;
-        option.textContent = ingredient.name;
+        option.value = meal.mealId;
+        option.textContent = meal.name;
         selectElement.appendChild(option);
     });
 }
 
-function addIngredientToList() {
-    const ingredientSelect = document.getElementById('ingredientSelect');
-    const quantityInput = document.getElementById('ingredientQuantity');
-    if (ingredientSelect.value && quantityInput.value) {
-        mealIngredients.push({
-            ingredientId: ingredientSelect.value,
-            quantity: parseFloat(quantityInput.value)
-        });
-        updateIngredientList();
-        ingredientSelect.selectedIndex = 0;
-        quantityInput.value = '';
-    } else {
-        alert('Please select an ingredient and enter a quantity.');
-    }
-}
+function setupModalTrigger() {
+    // Setting up Pop up tab
+    var btn = document.getElementById('addIngredientBtn');
+    var modal = document.getElementById('ingredientModal');
+    var span = document.getElementsByClassName('close-button')[0];
 
-function updateIngredientList() {
-    const ingredientListElement = document.getElementById('ingredientList');
-    ingredientListElement.innerHTML = ''; 
-    mealIngredients.forEach(ingredient => {
-        const li = document.createElement('li');
-        li.textContent = `Ingredient ID: ${ingredient.ingredientId}, Quantity: ${ingredient.quantity}`;
-        ingredientListElement.appendChild(li);
-    });
-}
-
-function saveMeal(event) {
-    event.preventDefault();
-    const mealNameInput = document.getElementById('mealName');
-    const mealName = mealNameInput.value.trim();
-
-    if (!mealName) {
-        alert('Please enter a meal name.');
-        return;
-    }
-
-    if (mealIngredients.length === 0) {
-        alert('Please add at least one ingredient to the meal before saving.');
-        return;
-    }
-
-    const mealData = {
-        Name: mealName,
-        Ingredients: mealIngredients.map(ingredient => ({
-            IngredientId: parseInt(ingredient.ingredientId, 10),
-            Quantity: parseFloat(ingredient.quantity)
-        }))
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+        document.getElementById('name').value = '';
+        document.getElementById('calories').value = '';
+        document.getElementById('salt').value = '';
+        document.getElementById('fat').value = '';
     };
 
-    fetch('https://localhost:44342/api/Meals/WithIngredients', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(mealData)
+    // When the user clicks on xxx, close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+        document.getElementById('ingredientId').value = '';
+        document.getElementById('name').value = '';
+        document.getElementById('calories').value = '';
+        document.getElementById('salt').value = '';
+        document.getElementById('fat').value = '';
+    };
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+function deleteMeal() {
+    const selectElement = document.getElementById('mealList');
+    const mealId = selectElement.value;
+
+    if (!mealId) {
+        alert('Please select a meal to delete.');
+        return;
+    }
+
+    const endpoint = `https://localhost:44342/api/Meals/${mealId}`;
+
+    fetch(endpoint, {
+        method: 'DELETE'
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
+                throw new Error('Error in deleting meal.');
             }
-            return response.json();
-        })
-        .then(mealResponseData => {
-            console.log(mealResponseData);
-            alert('Meal with ingredients saved successfully!');
-            mealNameInput.value = '';
-            mealIngredients = [];
-            updateIngredientList();
+            alert('Meal deletion successful.');
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred while saving the meal with ingredients.');
+            alert('An error occurred while deleting the meal.');
         });
 }
+
+function checkQuantity() {
+    // This function would likely make a GET request to an endpoint that
+    // returns how many of the selected meal could be made with current stock.
+    alert('This feature is not yet implemented.');
+}
+
+document.getElementById('checkQuantityBtn').addEventListener('click', checkQuantity);
+document.getElementById('ingredientQueryBtn').addEventListener('click', function () {
+    window.location.href = '/Stock/IngredientQuery'; 
+});
+
+document.getElementById('addMealBtn').addEventListener('click', function () {
+    window.location.href = '/Stock/AddMeal'; 
+});
+
+document.getElementById('deleteBtn').addEventListener('click', deleteMeal);
