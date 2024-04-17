@@ -20,7 +20,7 @@ namespace ManagementSystem.Models
         public int IngredientId { get; set; }
 
         [Required]
-        public float Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [ForeignKey("MealId")]
         [JsonIgnore]

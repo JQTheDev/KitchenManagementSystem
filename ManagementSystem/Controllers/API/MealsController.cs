@@ -148,7 +148,7 @@ namespace ManagementSystem.Controllers.API
         public class IngredientDto
         {
             public int IngredientId { get; set; }
-            public float Quantity { get; set; }
+            public decimal Quantity { get; set; }
         }
     }
 }

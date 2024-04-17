@@ -21,6 +21,9 @@ public class Ingredient
     [Required]
     public int Quantity { get; set; } = 0;
 
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal Price { get; set; }
+
     public Ingredient()
 	{
 		//Blank for Db Context DB configuration

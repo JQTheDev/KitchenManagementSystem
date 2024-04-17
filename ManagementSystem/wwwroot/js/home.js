@@ -59,4 +59,8 @@ document.getElementById("mealQueryBtn").addEventListener("click", function () {
     window.location.href = '/Stock/MealQuery';
 });
 
+document.getElementById("mealPlannerBtn").addEventListener("click", function () {
+    window.location.href = '/Stock/MealPlanner';
+});
+
 document.getElementById("updateButton").addEventListener("click", UpdateFunding);

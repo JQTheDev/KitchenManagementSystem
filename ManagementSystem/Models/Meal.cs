@@ -16,6 +16,15 @@ namespace ManagementSystem.Models
 
         [Required]
         public string Name { get; set; }
+        
+        [NotMapped]
+        public decimal Price
+        {
+            get
+            {
+                return MealIngredients?.Sum(mi => mi.Quantity * mi.Ingredient.Price) ?? 0m;
+            }
+        }
 
         [JsonIgnore]
         public virtual ICollection<MealIngredient> MealIngredients { get; set; }
