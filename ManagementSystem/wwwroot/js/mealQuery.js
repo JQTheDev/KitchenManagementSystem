@@ -8,6 +8,7 @@ function fetchMeals() {
     fetch(endpoint)
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             populateMeals(data);
         })
         .catch(error => {

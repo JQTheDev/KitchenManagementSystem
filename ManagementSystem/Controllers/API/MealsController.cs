@@ -40,6 +40,32 @@ namespace ManagementSystem.Controllers.API
 
             return meal;
         }
+        [HttpGet("ValidateMeal/{mealId}")]
+        public async Task<IActionResult> ValidateMeal(int mealId)
+        {
+            var mealIngredients = await _context.MealIngredient
+                                                .Where(mi => mi.MealId == mealId)
+                                                .Include(mi => mi.Ingredient)
+                                                .ToListAsync();
+
+            if (mealIngredients == null || !mealIngredients.Any())
+            {
+                return NotFound(new { Message = "Meal not found or has no ingredients." });
+            }
+
+            foreach (var mi in mealIngredients)
+            {
+                // Check for null or zero values
+                if (mi.Ingredient.Fat == null || mi.Ingredient.Fat <= 0 ||
+                    mi.Ingredient.Salt == null || mi.Ingredient.Salt <= 0 ||
+                    mi.Ingredient.Calories == null || mi.Ingredient.Calories <= 0)
+                {
+                    return BadRequest(new { Message = "Meal contains ingredients with incomplete or invalid nutritional data." });
+                }
+            }
+
+            return Ok(new { Message = "Meal is valid for planning." });
+        }
 
         // PUT: api/Meals/5
         [HttpPut("{id}")]

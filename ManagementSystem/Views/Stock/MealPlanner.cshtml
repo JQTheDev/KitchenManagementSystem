@@ -1,1 +1,54 @@
-﻿<p>Hello</p>
+﻿@{
+    Layout = "_MainLayout";
+    ViewBag.Title = "Meal Planner";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <link rel="stylesheet" href="~/css/ingredientQuery.css"> <!-- Use the same CSS for styling -->
+</head>
+<body>
+    <main>
+        <h1>Meal Planner</h1>
+        <p>Use this page to work out the most nutritional meals...</p>
+
+        <div class="meal-selection">
+            <label for="mealSelect">Select meals:</label>
+            <select id="mealSelect">
+                <option value="">Please Select</option>
+                <!-- Options populated with js -->
+            </select>
+            <button id="addMealBtn">Add Meal</button>
+        </div>
+
+        <!-- Container for displaying selected meals -->
+        <div class="selected-meals">
+            <h2>Selected Meals:</h2>
+            <ul id="selectedMeals"></ul> <!-- This is where selected meals will be listed -->
+        </div>
+
+        <div class="inputs">
+            <label for="mouthsToFeed">Mouths to feed:</label>
+            <input type="number" id="mouthsToFeed" min="1" required>
+
+            <label for="donationMoney">Donation money allocated:</label>
+            <input type="number" id="donationMoney" min="0" required>
+        </div>
+
+        <button id="calculateBtn">Calculate</button>
+
+        <div id="errorContainer"></div>
+
+        <div class="bottom-buttons">
+            <button class="action-button" id="ingredientQueryBtn">Ingredient Query</button>
+            <button class="action-button" id="mealQueryBtn">Meal Query</button>
+            <!-- Add other buttons as needed -->
+        </div>
+    </main>
+    <script src="~/js/mealPlanner.js"></script> <!-- Ensure you reference the correct JS file for meal planner logic -->
+</body>
+</html>
