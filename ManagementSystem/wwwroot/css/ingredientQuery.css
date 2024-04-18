@@ -49,3 +49,14 @@
     gap: 20px;
     margin-bottom: 20px;
 }
+
+.ingredient-info-panel {
+    background-color: grey; 
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px; 
+}
+
+.ingredient-info {
+    font-weight: bold; 
+}

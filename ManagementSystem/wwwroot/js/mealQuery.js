@@ -125,6 +125,40 @@ function deleteMeal() {
         });
 }
 
+document.getElementById('checkIngredientsBtn').addEventListener('click', checkIngredients);
+
+async function checkIngredients() {
+    const mealId = document.getElementById('mealList').value;
+    if (!mealId) {
+        alert('Please select a meal to check ingredients.');
+        return;
+    }
+
+    try {
+        const mealIngredientsResponse = await fetch(`https://localhost:44342/api/MealIngredients/ByMeal/${mealId}`);
+        if (!mealIngredientsResponse.ok) throw new Error('Failed to fetch meal ingredients');
+        const mealIngredients = await mealIngredientsResponse.json();
+
+        let ingredientsInfoHtml = '<div class="ingredient-info-panel">';
+        for (const mealIngredient of mealIngredients) {
+            const ingredientResponse = await fetch(`https://localhost:44342/api/Ingredients/${mealIngredient.ingredientId}`);
+            if (!ingredientResponse.ok) throw new Error('Failed to fetch ingredient details');
+            const ingredient = await ingredientResponse.json();
+
+            ingredientsInfoHtml += `
+                <p><span class="ingredient-info">Ingredient:</span> ${ingredient.name}, <span class="ingredient-info">Required Quantity:</span> ${mealIngredient.quantity}, <span class="ingredient-info">Available Quantity:</span> ${ingredient.quantity}</p>
+            `;
+        }
+        ingredientsInfoHtml += '</div>';
+
+        document.getElementById('ingredientsInfo').innerHTML = ingredientsInfoHtml;
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while fetching ingredients information.');
+    }
+}
+
+
 document.getElementById('ingredientQueryBtn').addEventListener('click', function () {
     window.location.href = '/Stock/IngredientQuery'; 
 });

@@ -32,15 +32,24 @@ function populateMeals(meals) {
 function addSelectedMeal() {
     const mealSelect = document.getElementById('mealSelect');
     const mealId = mealSelect.value;
+    const mealName = mealSelect.options[mealSelect.selectedIndex].text;
+
     if (!mealId) {
         alert('Please select a meal to add.');
+        return;
+    }
+
+    // Check if the meal is already in the selectedMeals array
+    const isMealAlreadySelected = selectedMeals.some(meal => meal.mealId === mealId);
+    if (isMealAlreadySelected) {
+        alert('This meal has already been added.');
         return;
     }
 
     validateMeal(mealId)
         .then(isValid => {
             if (isValid) {
-                selectedMeals.push({ mealId, name: mealSelect.options[mealSelect.selectedIndex].text });
+                selectedMeals.push({ mealId, name: mealName });
                 updateSelectedMealsList();
                 alert("Meal successfully added");
             } else {
@@ -52,6 +61,7 @@ function addSelectedMeal() {
             alert('An error occurred while validating the meal.');
         });
 }
+
 
 function updateSelectedMealsList() {
     const listElement = document.getElementById('selectedMeals');
@@ -89,6 +99,22 @@ document.getElementById('ingredientQueryBtn').addEventListener('click', function
 document.getElementById('mealQueryBtn').addEventListener('click', function () {
     window.location.href = '/Stock/MealQuery';
 });
+
+document.getElementById('calculateBtn').addEventListener('click', function () {
+    // Check if at least four meals have been added
+    if (selectedMeals.length < 4) {
+        alert('Please add at least four meals before calculating.');
+        return; // Exit the function if not enough meals have been selected
+    }
+    calculateMeals();
+});
+
+function calculateMeals() {
+    // Your calculation logic goes here...
+    console.log("Calculating best meals based on the selected options...");
+    // ... Rest of the calculation logic
+}
+
 
 //VALIDATE MEAL CLIENT-SIDE
 
