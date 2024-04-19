@@ -14,8 +14,13 @@
 <body>
     <main>
         <h1>Meal Planner</h1>
-        <p>Use this page to work out the most nutritional meals...</p>
-
+        <div id="styling">
+            <p>Use this page to work out the most nutritional meals...</p>
+            <p id="errorIngredients">The following indredients have 0 stock. Bare<br />  this in mind when putting meals into the algorithm.</p>
+            <ul id="emptyIngredients">
+                <li></li>
+            </ul>
+        </div>
         <div class="meal-selection">
             <label for="mealSelect">Select meals:</label>
             <select id="mealSelect">

@@ -169,26 +169,11 @@ namespace ManagementSystem.Controllers.API
         }
 
         [HttpPost("SelectMeals")]
-        public async Task<ActionResult<IEnumerable<Meal>>> SelectMeals([FromBody] MealSelectionDto selection)
+        public async Task<ActionResult<IEnumerable<object>>> SelectMeals([FromBody] MealSelectionDto selection)
         {
-            try
-            {
-                // Call the method to get the most nutritious meals within budget
-                var recommendedMeals = await _mealService.SelectMostNutritiousMeals(selection);
-
-                if (recommendedMeals == null || !recommendedMeals.Any())
-                {
-                    return NotFound("No meals found that meet the criteria.");
-                }
-
-                // This returns the recommended meals to the client
-                return Ok(recommendedMeals);
-            }
-            catch (Exception ex)
-            {
-                // Log the exception details here to debug issues
-                return StatusCode(500, "An error occurred while processing your request.");
-            }
+            // Assuming _mealService is already instantiated and available here
+            var recommendedMeals = await _mealService.SelectMostNutritiousMeals(selection);
+            return Ok(recommendedMeals);
         }
 
 

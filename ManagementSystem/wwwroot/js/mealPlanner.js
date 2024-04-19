@@ -25,23 +25,27 @@ async function fetchIngredients() {
         }
         const ingredients = await response.json();
         const container = document.getElementById("emptyIngredients");
+        const ingredientContainer = document.getElementById("styling");
+
         container.innerHTML = ''; // Clear previous entries
 
         if (ingredients.length > 0) {
-            const ingredientContainer = document.getElementById("emptyIngredientsContainer");
             ingredientContainer.style.display = "block"; // Only display if there are ingredients with zero stock
-
             ingredients.forEach(ingredient => {
                 const item = document.createElement("li");
                 item.textContent = ingredient.name;
+                item.style.color = 'red'; // Make the text red
                 container.appendChild(item);
             });
+        } else {
+            ingredientContainer.style.display = "none"; // Hide if no zero stock ingredients
         }
     } catch (error) {
         console.error('Error:', error);
         alert('Failed to load ingredients with zero stock.');
     }
 }
+
 
 
 function populateMeals(meals) {
@@ -159,8 +163,8 @@ async function calculateMeals() {
 
         if (!selectionResponse.ok) throw new Error("Error selecting meals");
         const result = await selectionResponse.json();
-
-        updateMealResultsTable(result); 
+        console.log("Result from SelectMeals endpoint:", result); // Add this line
+        updateMealResultsTable(result.value); 
     } catch (error) {
         console.error('Error:', error);
         alert('An error occurred while calculating the best meals.');
@@ -171,14 +175,21 @@ function updateMealResultsTable(meals) {
     const tableBody = document.getElementById('mealResultsTable').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = ''; // Clear existing table data
 
-    meals.forEach(meal => {
-        let row = tableBody.insertRow();
-        row.insertCell(0).textContent = meal.name;
-        row.insertCell(1).textContent = meal.nutritionLabel;
-        row.insertCell(2).textContent = `$${meal.price.toFixed(2)}`;
-        row.insertCell(3).textContent = `$${(meal.price * document.getElementById("mouthsToFeed").value).toFixed(2)}`;
-    });
+    if (Array.isArray(meals)) { // Make sure meals is an array
+        meals.forEach(meal => {
+            console.log("Processing meal:", meal);
+            let row = tableBody.insertRow();
+            row.insertCell(0).textContent = meal.name;
+            row.insertCell(1).textContent = meal.nutritionLabel;
+            row.insertCell(2).textContent = `$${meal.pricePerMeal.toFixed(2)}`;
+            row.insertCell(3).textContent = `$${meal.totalPrice.toFixed(2)}`;
+        });
+    } else {
+        // Handle case where meals is not an array
+        console.error('Expected an array of meals, but received:', meals);
+    }
 }
+
 
 
 //VALIDATE MEAL CLIENT-SIDE

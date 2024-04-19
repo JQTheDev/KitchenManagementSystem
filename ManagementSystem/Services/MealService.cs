@@ -1,4 +1,5 @@
 ﻿using ManagementSystem.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,21 +20,18 @@ namespace ManagementSystem.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Meal>> SelectMostNutritiousMeals(MealSelectionDto selection)
+        public async Task<ActionResult<IEnumerable<object>>> SelectMostNutritiousMeals(MealSelectionDto selection)
         {
-            // Get all meals along with their ingredients
             var mealsWithIngredients = await _context.Meal
-                                                        .Where(m => selection.MealIds.Contains(m.MealId))
-                                                        .Include(m => m.MealIngredients)
-                                                        .ThenInclude(mi => mi.Ingredient)
-                                                        .ToListAsync();
+                                                    .Where(m => selection.MealIds.Contains(m.MealId))
+                                                    .Include(m => m.MealIngredients)
+                                                    .ThenInclude(mi => mi.Ingredient)
+                                                    .ToListAsync();
 
-            // Create a list to hold meals with their price and nutritional score
             var evaluatedMeals = new List<MealEvaluationDto>();
 
             foreach (var meal in mealsWithIngredients)
             {
-                // Calculate total nutrition and price for each meal
                 double totalCalories = 0;
                 double totalFat = 0;
                 double totalSalt = 0;
@@ -47,7 +45,6 @@ namespace ManagementSystem.Services
                     totalPrice += mi.Ingredient.Price * mi.Quantity;
                 }
 
-                // Evaluate the nutrition score of the meal
                 string nutritionLabel = _fuzzyLogicManager.EvaluateMealNutrition(totalCalories, totalFat, totalSalt);
 
                 evaluatedMeals.Add(new MealEvaluationDto
@@ -58,28 +55,34 @@ namespace ManagementSystem.Services
                 });
             }
 
-            // Filter and order meals by nutritional value that are affordable
             var affordableAndNutritiousMeals = evaluatedMeals
                 .Where(e => e.Price * selection.MouthsToFeed <= selection.TotalBudget)
                 .OrderByDescending(e => e.NutritionLabel)
                 .ToList();
 
-            // Ensure that we only take the top 3 most nutritious meals within the total budget constraint
             decimal budgetUsed = 0;
-            List<Meal> recommendedMeals = new List<Meal>();
+            List<object> recommendedMeals = new List<object>();
             foreach (var meal in affordableAndNutritiousMeals)
             {
                 decimal costForAll = meal.Price * selection.MouthsToFeed;
                 if (budgetUsed + costForAll <= selection.TotalBudget)
                 {
-                    recommendedMeals.Add(meal.Meal);
+                    recommendedMeals.Add(new
+                    {
+                        MealId = meal.Meal.MealId,
+                        Name = meal.Meal.Name,
+                        NutritionLabel = meal.NutritionLabel,
+                        PricePerMeal = meal.Price,
+                        TotalPrice = costForAll
+                    });
                     budgetUsed += costForAll;
                 }
-                if (recommendedMeals.Count == 3) break; // Stop if we have already selected the top 3 meals
+                if (recommendedMeals.Count == 3) break; // Limit to 3 most nutritious meals within budget
             }
 
             return recommendedMeals;
         }
+
 
         // DTO(Data Transfer Object) to hold meal evaluations
         private class MealEvaluationDto
