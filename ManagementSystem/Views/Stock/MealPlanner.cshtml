@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
-    <link rel="stylesheet" href="~/css/ingredientQuery.css"> <!-- Use the same CSS for styling -->
+    <link rel="stylesheet" href="~/css/mealPlanner.css"> <!-- Use the same CSS for styling -->
 </head>
 <body>
     <main>
@@ -41,13 +41,32 @@
 
         <button id="calculateBtn">Calculate</button>
 
-        <div id="errorContainer"></div>
-
         <div class="bottom-buttons">
             <button class="action-button" id="ingredientQueryBtn">Ingredient Query</button>
             <button class="action-button" id="mealQueryBtn">Meal Query</button>
             <!-- Add other buttons as needed -->
         </div>
+
+        <div class="meal-results">
+            <h2>Recommended Meals</h2>
+            <table id="mealResultsTable">
+                <thead>
+                    <tr>
+                        <th>Meal Name</th>
+                        <th>Nutrition Label</th>
+                        <th>Price per Meal</th>
+                        <th>Total Price for All</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Meal data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="errorContainer"></div>
+
+        
     </main>
     <script src="~/js/mealPlanner.js"></script> <!-- Ensure you reference the correct JS file for meal planner logic -->
 </body>

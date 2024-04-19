@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ManagementSystem.Models;
+using ManagementSystem.Services;
 
 namespace ManagementSystem.Controllers.API
 {
@@ -14,10 +15,12 @@ namespace ManagementSystem.Controllers.API
     public class MealsController : ControllerBase
     {
         private readonly MyDbContext _context;
+        private readonly MealService _mealService;
 
         public MealsController(MyDbContext context)
         {
             _context = context;
+            _mealService = new MealService(context);
         }
 
         // GET: api/Meals
@@ -165,6 +168,31 @@ namespace ManagementSystem.Controllers.API
             }
         }
 
+        [HttpPost("SelectMeals")]
+        public async Task<ActionResult<IEnumerable<Meal>>> SelectMeals([FromBody] MealSelectionDto selection)
+        {
+            try
+            {
+                // Call the method to get the most nutritious meals within budget
+                var recommendedMeals = await _mealService.SelectMostNutritiousMeals(selection);
+
+                if (recommendedMeals == null || !recommendedMeals.Any())
+                {
+                    return NotFound("No meals found that meet the criteria.");
+                }
+
+                // This returns the recommended meals to the client
+                return Ok(recommendedMeals);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details here to debug issues
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
+
+
         public class MealWithIngredientsDto
         {
             public string Name { get; set; }
@@ -176,5 +204,18 @@ namespace ManagementSystem.Controllers.API
             public int IngredientId { get; set; }
             public decimal Quantity { get; set; }
         }
+
+        public class MealSelectionDto
+        {
+            public int MouthsToFeed { get; set; }
+            public decimal TotalBudget { get; set; }
+            public List<int> MealIds { get; set; }
+
+            public MealSelectionDto()
+            {
+                MealIds = new List<int>();
+            }
+        }
+
     }
 }

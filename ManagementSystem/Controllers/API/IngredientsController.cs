@@ -39,6 +39,14 @@ namespace ManagementSystem.Controllers.API
             return ingredient;
         }
 
+        [HttpGet("Empty")]
+        public async Task<ActionResult<Ingredient>> GetEmptyIngredient()
+        {
+            var ingredients = await _context.Ingredient.Where(x => x.Quantity == 0).ToListAsync();
+
+            return Ok(ingredients);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutIngredient(int id, Ingredient ingredient)
         {

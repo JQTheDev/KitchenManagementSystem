@@ -1,3 +1,16 @@
-﻿#mouthsToFeed{
-    display:block;
+﻿
+
+.meal-results table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.meal-results th, .meal-results td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.meal-results th {
+    background-color: #f4f4f4;
 }

@@ -1,6 +1,7 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     fetchMeals();
     document.getElementById('addMealBtn').addEventListener('click', addSelectedMeal);
+    fetchIngredients();
 });
 
 let selectedMeals = [];
@@ -16,6 +17,32 @@ function fetchMeals() {
             console.error('Error fetching meals:', error);
         });
 }
+async function fetchIngredients() {
+    try {
+        const response = await fetch("https://localhost:44342/api/Ingredients/Empty");
+        if (!response.ok) {
+            throw new Error("Failed to fetch ingredients with zero stock.");
+        }
+        const ingredients = await response.json();
+        const container = document.getElementById("emptyIngredients");
+        container.innerHTML = ''; // Clear previous entries
+
+        if (ingredients.length > 0) {
+            const ingredientContainer = document.getElementById("emptyIngredientsContainer");
+            ingredientContainer.style.display = "block"; // Only display if there are ingredients with zero stock
+
+            ingredients.forEach(ingredient => {
+                const item = document.createElement("li");
+                item.textContent = ingredient.name;
+                container.appendChild(item);
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to load ingredients with zero stock.');
+    }
+}
+
 
 function populateMeals(meals) {
     const selectElement = document.getElementById('mealSelect');
@@ -51,7 +78,6 @@ function addSelectedMeal() {
             if (isValid) {
                 selectedMeals.push({ mealId, name: mealName });
                 updateSelectedMealsList();
-                alert("Meal successfully added");
             } else {
                 alert('Selected meal does not meet the criteria.');
             }
@@ -109,10 +135,49 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
     calculateMeals();
 });
 
-function calculateMeals() {
-    // Your calculation logic goes here...
-    console.log("Calculating best meals based on the selected options...");
-    // ... Rest of the calculation logic
+async function calculateMeals() {
+    try {
+        const fundingResponse = await fetch("https://localhost:44342/api/Funding/1");
+        if (!fundingResponse.ok) throw new Error("Failure getting funding");
+        const fundingData = await fundingResponse.json();
+
+        let totalBudget = Math.floor(fundingData.amount / 365) + parseInt(document.getElementById("donationMoney").value);
+        const mouthsToFeed = parseInt(document.getElementById("mouthsToFeed").value);
+        const mealIds = selectedMeals.map(meal => meal.mealId);
+
+        const mealSelectionData = {
+            MouthsToFeed: mouthsToFeed,
+            TotalBudget: totalBudget,
+            MealIds: mealIds
+        };
+
+        const selectionResponse = await fetch('https://localhost:44342/api/Meals/SelectMeals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(mealSelectionData)
+        });
+
+        if (!selectionResponse.ok) throw new Error("Error selecting meals");
+        const result = await selectionResponse.json();
+
+        updateMealResultsTable(result); 
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while calculating the best meals.');
+    }
+}
+
+function updateMealResultsTable(meals) {
+    const tableBody = document.getElementById('mealResultsTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing table data
+
+    meals.forEach(meal => {
+        let row = tableBody.insertRow();
+        row.insertCell(0).textContent = meal.name;
+        row.insertCell(1).textContent = meal.nutritionLabel;
+        row.insertCell(2).textContent = `$${meal.price.toFixed(2)}`;
+        row.insertCell(3).textContent = `$${(meal.price * document.getElementById("mouthsToFeed").value).toFixed(2)}`;
+    });
 }
 
 
