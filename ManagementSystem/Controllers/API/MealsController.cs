@@ -16,11 +16,13 @@ namespace ManagementSystem.Controllers.API
     {
         private readonly MyDbContext _context;
         private readonly MealService _mealService;
+        private readonly ILogger<MealService> _logger;
 
-        public MealsController(MyDbContext context)
+        public MealsController(MyDbContext context, ILogger<MealService> logger)
         {
             _context = context;
-            _mealService = new MealService(context);
+            _logger = logger;
+            _mealService = new MealService(context, logger);
         }
 
         // GET: api/Meals
@@ -173,6 +175,7 @@ namespace ManagementSystem.Controllers.API
         {
             // Assuming _mealService is already instantiated and available here
             var recommendedMeals = await _mealService.SelectMostNutritiousMeals(selection);
+
             return Ok(recommendedMeals);
         }
 

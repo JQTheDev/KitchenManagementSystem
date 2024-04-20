@@ -145,10 +145,19 @@ async function calculateMeals() {
         if (!fundingResponse.ok) throw new Error("Failure getting funding");
         const fundingData = await fundingResponse.json();
 
-        let totalBudget = Math.floor(fundingData.amount / 365) + parseInt(document.getElementById("donationMoney").value);
-        const mouthsToFeed = parseInt(document.getElementById("mouthsToFeed").value);
+        let totalBudget = Math.floor(fundingData.amount / 365);
+        totalBudget += parseInt(document.getElementById("donationMoney").value) || 0;
+        const mouthsToFeedInput = document.getElementById("mouthsToFeed").value;
+        const mouthsToFeed = parseInt(mouthsToFeedInput) || 0;
         const mealIds = selectedMeals.map(meal => meal.mealId);
-
+        if (mouthsToFeed === 0) {
+            alert("Error: Mouths to feed cannot be 0");
+            return;
+        }
+        else if (totalBudget === 0) {
+            alert("Error: Donation money cannot be 0 if government funding is also 0");
+            return;
+        }
         const mealSelectionData = {
             MouthsToFeed: mouthsToFeed,
             TotalBudget: totalBudget,
@@ -161,7 +170,13 @@ async function calculateMeals() {
             body: JSON.stringify(mealSelectionData)
         });
 
-        if (!selectionResponse.ok) throw new Error("Error selecting meals");
+        if (!selectionResponse.ok) {
+            // Try to parse the error message from the response
+            const errorResponse = await selectionResponse.json();
+            const errorMessage = errorResponse.message || "Error selecting meals";
+            alert(errorMessage);
+            return;
+        }
         const result = await selectionResponse.json();
         console.log("Result from SelectMeals endpoint:", result); // Add this line
         updateMealResultsTable(result.value); 
@@ -174,7 +189,10 @@ async function calculateMeals() {
 function updateMealResultsTable(meals) {
     const tableBody = document.getElementById('mealResultsTable').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = ''; // Clear existing table data
-
+    if (meals.length != 3) {
+        alert("The total budget is not sufficient for the selected meals and mouths to feed. Please revise the budget");
+        return;
+    }
     if (Array.isArray(meals)) { // Make sure meals is an array
         meals.forEach(meal => {
             console.log("Processing meal:", meal);
