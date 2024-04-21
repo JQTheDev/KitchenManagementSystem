@@ -22,7 +22,10 @@ namespace ManagementSystem.Models
         {
             get
             {
-                return MealIngredients?.Sum(mi => mi.Quantity * mi.Ingredient.Price) ?? 0m;
+                if (MealIngredients == null)
+                    return 0m;
+
+                return MealIngredients.Sum(mi => mi.Ingredient != null ? mi.Quantity * mi.Ingredient.Price : 0m);
             }
         }
 

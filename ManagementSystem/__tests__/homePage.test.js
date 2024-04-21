@@ -7,6 +7,7 @@ describe('Home Page Navigation', () => {
     beforeAll(async () => {
         browser = await puppeteer.launch({
             // headless: false, // Shows browser when testcases are being executed.
+            //slowMo: 100
         });
         page = await browser.newPage();
     });
@@ -16,23 +17,23 @@ describe('Home Page Navigation', () => {
     });
 
     test('Navigate to Meal Planner', async () => {
-        await page.goto('https://localhost:44342/home'); // Adjust as necessary
+        await page.goto('https://localhost:44342/home');
         await page.click('#mealPlannerBtn');
-        await page.waitForSelector('#addMealBtn'); // Replace with a selector specific to the Meal Planner page
+        await page.waitForSelector('#addMealBtn');
         expect(page.url()).toContain('/Stock/MealPlanner');
     });
 
     test('Navigate to Meal Query', async () => {
-        await page.goto('https://localhost:44342/home'); // Adjust as necessary
+        await page.goto('https://localhost:44342/home');
         await page.click('#mealQueryBtn');
-        await page.waitForSelector('#addMealBtn'); // Replace with a selector specific to the Meal Query page
+        await page.waitForSelector('#addMealBtn');
         expect(page.url()).toContain('/Stock/MealQuery');
     });
 
     test('Navigate to Ingredient Query', async () => {
-        await page.goto('https://localhost:44342/home'); // Adjust as necessary
+        await page.goto('https://localhost:44342/home'); 
         await page.click('#ingredientQueryBtn');
-        await page.waitForSelector('#mealQueryBtn'); // Replace with a selector specific to the Ingredient Query page
+        await page.waitForSelector('#mealQueryBtn'); 
         expect(page.url()).toContain('/Stock/IngredientQuery');
     });
 });

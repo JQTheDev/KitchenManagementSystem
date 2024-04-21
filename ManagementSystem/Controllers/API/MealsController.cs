@@ -18,7 +18,7 @@ namespace ManagementSystem.Controllers.API
         private readonly MealService _mealService;
         private readonly ILogger<MealService> _logger;
 
-        public MealsController(MyDbContext context, ILogger<MealService> logger)
+        public MealsController(MyDbContext context, ILogger<MealService> logger = null)
         {
             _context = context;
             _logger = logger;

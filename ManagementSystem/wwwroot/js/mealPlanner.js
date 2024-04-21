@@ -207,31 +207,3 @@ function updateMealResultsTable(meals) {
         console.error('Expected an array of meals, but received:', meals);
     }
 }
-
-
-
-//VALIDATE MEAL CLIENT-SIDE
-
-//async function validateMeal(mealId) {
-//    try {
-//        const firstResponse = await fetch(`https://localhost:44342/api/MealIngredients/ByMeal/${mealId}`)
-//        if (!firstResponse.ok) {
-//            throw new Error("first reponse errored");
-//        }
-//        const mealIngredients = await firstResponse.json();
-//        for(const mealIngredient of mealIngredients) {
-//            const response = await fetch(`https://localhost:44342/api/Ingredients/${mealIngredient.ingredientId}`);
-//            if (!response.ok) {
-//                throw new Error("Error when fetching ingredients within meal");
-//            }
-//            const ingredient = await response.json();
-//            if (ingredient.fat === null || ingredient.salt === null || ingredient.calories == null) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//    catch (error){
-//        console.error("Validate meals function failed. Error:", error)
-//    }
-//}
