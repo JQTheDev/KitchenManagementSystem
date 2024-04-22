@@ -12,7 +12,9 @@
     font-size: 14px;
     color: black;
 }
-
+#calculateBtn, #addMealBtn {
+    background-color: blue;
+}
 .selected-meals ul, #emptyIngredients {
     padding: 0;
 }

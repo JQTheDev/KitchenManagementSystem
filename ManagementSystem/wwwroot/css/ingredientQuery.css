@@ -17,9 +17,19 @@
     justify-content: center;
     margin: 0 400px 60px;
 }
-#updateBtn{
+#updateBtn {
     text-align: left;
     justify-content: left;
+    background-color: blue;
+
+}
+
+#checkQuantityBtn, #checkIngredientsBtn {
+    background-color: blue;
+}
+
+#deleteBtn {
+    background-color: blue;
 }
 
 .bottom-buttons {
