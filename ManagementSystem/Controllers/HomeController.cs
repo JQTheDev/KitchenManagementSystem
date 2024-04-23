@@ -1,9 +1,11 @@
 using ManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace ManagementSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly MyDbContext _context;

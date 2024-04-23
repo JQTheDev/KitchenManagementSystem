@@ -1,6 +1,8 @@
 ﻿using ManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 
 namespace ManagementSystem.Controllers
@@ -19,24 +21,28 @@ namespace ManagementSystem.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Index(User user)
+        public async Task<IActionResult> Index(User user)
         {
             var dbUser = _context.User.FirstOrDefault(u => u.Username == user.Username);
-            if (dbUser == null)
+            if (dbUser != null && BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password))
             {
-                ViewBag.ErrorMessage = "Username does not exist.";
-                return View();
-            }
-            if (BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password))
-            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, dbUser.Username)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);
+
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                ViewBag.ErrorMessage = "Incorrect Password.";
-            }
+
+            ViewBag.ErrorMessage = "Invalid username or password.";
             return View();
         }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -97,6 +103,14 @@ namespace ManagementSystem.Controllers
             }
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync();  // Adjust based on your authentication scheme
+            return RedirectToAction("Index", "Login");
+        }
+
         private string HashPassword(string password)
         {
             

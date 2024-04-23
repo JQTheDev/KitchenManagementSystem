@@ -1,9 +1,11 @@
 ﻿using ManagementSystem.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementSystem.Controllers
 {
+    [Authorize]
     public class StockController : Controller
     {
         private readonly MyDbContext _context;
