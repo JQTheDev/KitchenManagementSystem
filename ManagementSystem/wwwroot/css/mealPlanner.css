@@ -3,7 +3,9 @@
     flex-direction: column;
     align-items: flex-start;
 }
-
+#addIngredientToMealBtn{
+    margin-bottom: 10px;
+}
 #styling ul{
     text-align: left;
 }
