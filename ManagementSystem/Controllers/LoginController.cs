@@ -107,7 +107,7 @@ namespace ManagementSystem.Controllers
         [HttpPost]
         public IActionResult Logout()
         {
-            HttpContext.SignOutAsync();  // Adjust based on your authentication scheme
+            HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Login");
         }
 
