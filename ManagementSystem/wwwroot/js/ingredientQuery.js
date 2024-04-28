@@ -4,6 +4,19 @@
     setupSortingOptions();
 });
 
+function fetchIngredients() {
+    const endpoint = "https://localhost:44342/api/Ingredients"
+    fetch(endpoint)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            populateIngredients(data);
+        })
+        .catch(error => {
+            console.error('Error fetching ingredients:', error);
+        });
+}
+
 function setupSortingOptions() {
     document.getElementById('sortDefault').addEventListener('change', function () {
         // Ensure at least one checkbox is always checked
@@ -60,18 +73,7 @@ function setupModalTrigger() {
     };
 }
 
-function fetchIngredients() {
-    const endpoint = "https://localhost:44342/api/Ingredients"
-    fetch(endpoint)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            populateIngredients(data);
-        })
-        .catch(error => {
-            console.error('Error fetching ingredients:', error);
-        });
-}
+
 
 function populateIngredients(ingredients) {
     const selectElement = document.getElementById('ingredientList');
@@ -92,7 +94,7 @@ function populateIngredients(ingredients) {
     });
 }
 
-async function updateIngredient() {
+async function getIngredientInfo() {
     const selectElement = document.getElementById("ingredientList")
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const ingredientId = selectedOption.value;
@@ -124,7 +126,7 @@ async function updateIngredient() {
 
 }
 
-async function saveIngredient() {
+async function updateIngredient() {
 
     const _ingredientId = document.getElementById("updateId").value;
     const _name = document.getElementById("updateName").value;
@@ -207,7 +209,7 @@ document.getElementById("updateBtn").addEventListener("click", function () {
     }
 
     // Always fetch ingredient details when the update button is clicked
-    updateIngredient();
+    getIngredientInfo();
 
     // Toggle the visibility of the update section
     const visible = document.getElementById("updateSection");
@@ -218,5 +220,5 @@ document.getElementById('mealQueryBtn').addEventListener('click', function () {
     window.location.href = '/Stock/MealQuery'; // Replace with your actual path or URL
 });
 
-document.getElementById("saveUpdateBtn").addEventListener("click", saveIngredient);
+document.getElementById("saveUpdateBtn").addEventListener("click", updateIngredient);
 document.getElementById("deleteBtn").addEventListener("click", deleteIngredient);

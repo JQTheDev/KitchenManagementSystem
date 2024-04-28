@@ -27,18 +27,18 @@ async function fetchIngredients() {
         const container = document.getElementById("emptyIngredients");
         const ingredientContainer = document.getElementById("styling");
 
-        container.innerHTML = ''; // Clear previous entries
+        container.innerHTML = '';
 
         if (ingredients.length > 0) {
-            ingredientContainer.style.display = "block"; // Only display if there are ingredients with zero stock
+            ingredientContainer.style.display = "block";
             ingredients.forEach(ingredient => {
                 const item = document.createElement("li");
                 item.textContent = ingredient.name;
-                item.style.color = 'red'; // Make the text red
+                item.style.color = 'red';
                 container.appendChild(item);
             });
         } else {
-            ingredientContainer.style.display = "none"; // Hide if no zero stock ingredients
+            ingredientContainer.style.display = "none";
         }
     } catch (error) {
         console.error('Error:', error);
@@ -70,7 +70,6 @@ function addSelectedMeal() {
         return;
     }
 
-    // Check if the meal is already in the selectedMeals array
     const isMealAlreadySelected = selectedMeals.some(meal => meal.mealId === mealId);
     if (isMealAlreadySelected) {
         alert('This meal has already been added.');
@@ -106,15 +105,14 @@ function updateSelectedMealsList() {
 
 async function validateMeal(mealId) {
     try {
-        // Making a GET request to the new validate meal endpoint
         const response = await fetch(`https://localhost:44342/api/Meals/ValidateMeal/${mealId}`);
 
         if (!response.ok) {
-            // If the response status is not OK, it means there was a validation error or other issue
+            
             return false;
         }
 
-        // If everything was fine, return true indicating the meal is valid
+        
         return true;
     } catch (error) {
         console.error("Error during meal validation:", error);
@@ -131,10 +129,10 @@ document.getElementById('mealQueryBtn').addEventListener('click', function () {
 });
 
 document.getElementById('calculateBtn').addEventListener('click', function () {
-    // Check if at least four meals have been added
+   
     if (selectedMeals.length < 4) {
         alert('Please add at least four meals before calculating.');
-        return; // Exit the function if not enough meals have been selected
+        return; 
     }
     calculateMeals();
 });
@@ -171,14 +169,14 @@ async function calculateMeals() {
         });
 
         if (!selectionResponse.ok) {
-            // Try to parse the error message from the response
+            
             const errorResponse = await selectionResponse.json();
             const errorMessage = errorResponse.message || "Error selecting meals";
             alert(errorMessage);
             return;
         }
         const result = await selectionResponse.json();
-        console.log("Result from SelectMeals endpoint:", result); // Add this line
+        console.log("Result from SelectMeals endpoint:", result); 
         updateMealResultsTable(result.value); 
     } catch (error) {
         console.error('Error:', error);
@@ -188,12 +186,12 @@ async function calculateMeals() {
 
 function updateMealResultsTable(meals) {
     const tableBody = document.getElementById('mealResultsTable').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = ''; // Clear existing table data
+    tableBody.innerHTML = ''; 
     if (meals.length != 3) {
         alert("The total budget is not sufficient for the selected meals and mouths to feed. Please revise the budget");
         return;
     }
-    if (Array.isArray(meals)) { // Make sure meals is an array
+    if (Array.isArray(meals)) {
         meals.forEach(meal => {
             console.log("Processing meal:", meal);
             let row = tableBody.insertRow();
@@ -203,7 +201,7 @@ function updateMealResultsTable(meals) {
             row.insertCell(3).textContent = `$${meal.totalPrice.toFixed(2)}`;
         });
     } else {
-        // Handle case where meals is not an array
+        
         console.error('Expected an array of meals, but received:', meals);
     }
 }

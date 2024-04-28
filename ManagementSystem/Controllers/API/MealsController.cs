@@ -173,7 +173,6 @@ namespace ManagementSystem.Controllers.API
         [HttpPost("SelectMeals")]
         public async Task<ActionResult<IEnumerable<object>>> SelectMeals([FromBody] MealSelectionDto selection)
         {
-            // Assuming _mealService is already instantiated and available here
             var recommendedMeals = await _mealService.SelectMostNutritiousMeals(selection);
 
             return Ok(recommendedMeals);
