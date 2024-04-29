@@ -59,13 +59,14 @@
             let _calories = document.getElementById('calories').value || 0;
             let _salt = document.getElementById('salt').value || 0;
             let _fat = document.getElementById('fat').value || 0;
+            let _price = document.getElementById('price').value || 0;
             const ingredient = {
                 name: document.getElementById('name').value,
                 calories: _calories,
                 salt: _salt,
                 fat: _fat,
                 quantity: 0,
-                price: document.getElementById('price').value
+                price: _price
             };
             if (ingredient.name === null) {
                 Alert("Name cannot be empty");

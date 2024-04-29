@@ -2,7 +2,7 @@
     const mealForm = document.getElementById('mealForm');
     mealForm.addEventListener('submit', saveMeal);
 
-    document.getElementById('addIngredientToMealBtn').addEventListener('click', addIngredientToList);
+    document.getElementById('addIngToMealBtn').addEventListener('click', addIngredientToList);
 
 
     fetchIngredients();

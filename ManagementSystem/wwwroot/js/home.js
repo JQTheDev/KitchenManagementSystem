@@ -2,8 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
     GetFunding();
 });
 async function UpdateFunding() {
-    
+    if (parseInt(document.getElementById("govFunding").value) <= 29999) {
+        alert("Minimum funding amount should be 30,000");
+        window.location.reload();
+        return;
+    }
     const data = {
+        
         FundingId: 1,
         Amount: document.getElementById("govFunding").value
     };
@@ -26,7 +31,7 @@ async function UpdateFunding() {
         }
     })
     .catch(error => {
-        console.error('Error:', error); // Handle any errors
+        console.error('Error:', error);
     });
 
         

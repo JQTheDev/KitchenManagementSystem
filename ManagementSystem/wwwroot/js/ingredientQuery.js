@@ -158,6 +158,7 @@ async function saveIngredient() {
             document.getElementById("updateSection").style.display = "none";
             document.getElementById("updateId").value = "";
             document.getElementById("updateQuantity").value = "";
+            window.location.reload();
         } else {
             throw new Error('Failed to update ingredient');
         }
@@ -171,7 +172,7 @@ async function deleteIngredient() {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const ingredientId = selectedOption.value;
 
-    if (ingredientId === "") {
+    if (ingredientId === "Please Select") {
         alert("Please select a valid ingredient to delete.");
         return;
     }
@@ -199,17 +200,17 @@ async function deleteIngredient() {
 document.getElementById("updateBtn").addEventListener("click", function () {
     const selectElement = document.getElementById("ingredientList");
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const ingredientId = selectedOption.value; // Corrected to .value
+    const ingredientId = selectedOption.value; 
 
-    if (ingredientId === "Please Select") { // Assuming the placeholder option's value is "Please Select"
+    if (ingredientId === "Please Select") { 
         alert("Please select a valid ingredient to update.");
         return;
     }
 
-    // Always fetch ingredient details when the update button is clicked
+    
     updateIngredient();
 
-    // Toggle the visibility of the update section
+
     const visible = document.getElementById("updateSection");
     visible.style.display = (visible.style.display === "none" || visible.style.display === "") ? "block" : "none";
 });

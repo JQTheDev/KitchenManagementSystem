@@ -1,5 +1,5 @@
 ﻿#styling {
-    display: none; /* Corrected spelling and set to none by default */
+    display: none; 
     flex-direction: column;
     align-items: flex-start;
 }
