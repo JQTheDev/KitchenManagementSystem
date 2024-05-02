@@ -10,11 +10,6 @@ describe('Meal Planner Recommendation Test', () => {
             slowMo: 100
         });
         page = await browser.newPage();
-        // Set up dialog listener at the start of the session
-        page.on('dialog', async dialog => {
-            console.log(dialog.message());
-            await dialog.dismiss();
-        });
     });
 
     afterAll(async () => {
