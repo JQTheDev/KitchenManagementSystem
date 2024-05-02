@@ -63,7 +63,7 @@ namespace ManagementSystem.Controllers.API
             {
                 if (mi.Ingredient.Fat == null || mi.Ingredient.Fat <= 0 ||
                     mi.Ingredient.Salt == null || mi.Ingredient.Salt <= 0 ||
-                    mi.Ingredient.Calories == null || mi.Ingredient.Calories <= 0)
+                    mi.Ingredient.Calories == null || mi.Ingredient.Calories <= 0) 
                 {
                     invalidIngredients.Add(mi.Ingredient.Name); // Collect names of invalid ingredients
                 }

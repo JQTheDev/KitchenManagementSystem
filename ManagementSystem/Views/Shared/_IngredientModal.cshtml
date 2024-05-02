@@ -82,12 +82,12 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert("Ingredient Creation Successful");
+                    alert("Ingredient Creation Successful.");
                     location.reload();
 
                 }
                 else {
-                    alert("Ingredient already exists.");
+                    alert("Ingredient with this name already exists.");
                 }
             })
             .catch(error => {

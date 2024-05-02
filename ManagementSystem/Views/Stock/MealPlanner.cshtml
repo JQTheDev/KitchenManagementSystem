@@ -9,14 +9,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Planner</title>
-    <link rel="stylesheet" href="~/css/mealPlanner.css"> <!-- Use the same CSS for styling -->
+    <link rel="stylesheet" href="~/css/mealPlanner.css">
 </head>
 <body>
     <main>
         <h1>Meal Planner</h1>
         <div id="styling">
             <p>Use this page to work out the most nutritional meals...</p>
-            <p id="errorIngredients">The following indredients have 0 stock. Bare<br />  this in mind when prepping meals.</p>
+            <p id="errorIngredients">The following ingredients have low stock. <br />Bare this in mind when preparing meals.</p>
             <ul id="emptyIngredients">
                 <li></li>
             </ul>
@@ -29,11 +29,10 @@
             </select>
             <button id="addMealBtn">Add Meal</button>
         </div>
-
-        <!-- Container for displaying selected meals -->
+       
         <div class="selected-meals">
             <h2>Selected Meals:</h2>
-            <ul id="selectedMeals"></ul> <!-- This is where selected meals will be listed -->
+            <ul id="selectedMeals"></ul>
         </div>
 
         <div class="inputs">
@@ -49,7 +48,6 @@
         <div class="bottom-buttons">
             <button class="action-button" id="ingredientQueryBtn">Ingredient Query</button>
             <button class="action-button" id="mealQueryBtn">Meal Query</button>
-            <!-- Add other buttons as needed -->
         </div>
 
         <div class="meal-results">
@@ -64,7 +62,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Meal data will be populated here -->
+                  
                 </tbody>
             </table>
         </div>
@@ -73,6 +71,6 @@
 
         
     </main>
-    <script src="~/js/mealPlanner.js"></script> <!-- Ensure you reference the correct JS file for meal planner logic -->
+    <script src="~/js/mealPlanner.js"></script>
 </body>
 </html>

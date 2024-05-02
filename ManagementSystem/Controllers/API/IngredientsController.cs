@@ -42,7 +42,7 @@ namespace ManagementSystem.Controllers.API
         [HttpGet("Empty")]
         public async Task<ActionResult<Ingredient>> GetEmptyIngredient()
         {
-            var ingredients = await _context.Ingredient.Where(x => x.Quantity == 0).ToListAsync();
+            var ingredients = await _context.Ingredient.Where(x => x.Quantity <= 3).ToListAsync();
 
             return Ok(ingredients);
         }
@@ -79,10 +79,10 @@ namespace ManagementSystem.Controllers.API
         [HttpPost]
         public async Task<ActionResult<Ingredient>> PostIngredient(Ingredient ingredient)
         {
-            bool ingreditentExists = await _context.Ingredient.AnyAsync(x => x.Name == ingredient.Name);
+            bool ingreditentExists = await _context.Ingredient.AnyAsync(x => x.Name.ToLower() == ingredient.Name.ToLower());
             if (ingreditentExists)
             {
-                throw new Exception("Ingredient with this name already exists");
+                throw new Exception("Ingredient with this name already exists.");
             }
 
             _context.Ingredient.Add(ingredient);
