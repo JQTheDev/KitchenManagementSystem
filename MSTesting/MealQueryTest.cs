@@ -26,6 +26,17 @@ namespace MSTesting
             _context.Meal.Add(new Meal { MealId = 1, Name = "Pasta" });
             _context.SaveChanges();
         }
+        [Test]
+        public async Task AddMealTest()
+        {
+            var meal = new Meal{ MealId = 2, Name = "Broccoli" };
+            // Act
+            var result = await _controller.PostMeal(meal);
+
+            // Assert
+            var mealFromDb = await _context.Meal.FindAsync(2);
+            Assert.AreEqual(meal.Name, mealFromDb.Name);
+        }
 
         [Test]
         public async Task DeleteMealTest()

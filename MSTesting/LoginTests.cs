@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MSTesting
 {
-    public class Tests
+    public class LoginTests
     {
         private MyDbContext _context;
         private LoginController _controller;
