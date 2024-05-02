@@ -6,8 +6,8 @@ describe('Meal Query Page Interactions', () => {
 
     beforeAll(async () => {
         browser = await puppeteer.launch({
-            //headless: false, // Shows browser when testcases are being executed.
-            //slowMo: 100
+            headless: false, // Shows browser when testcases are being executed.
+            slowMo: 100
         });
         page = await browser.newPage();
     });
@@ -16,7 +16,7 @@ describe('Meal Query Page Interactions', () => {
         await browser.close();
     });
 
-    test('Navigate to Add Meal', async () => {
+    test('Navigate to Add Meal Page', async () => {
         await page.goto('https://localhost:44342/Stock/MealQuery');
         const navigationPromise = page.waitForNavigation();
         await page.click('#addMealBtn');
@@ -43,5 +43,17 @@ describe('Meal Query Page Interactions', () => {
         expect(page.url()).toContain('/Stock/IngredientQuery');
     });
 
+    test('Verify Check Quantity button works', async () => {
+        await page.goto('https://localhost:44342/Stock/MealQuery');
+        await page.waitForSelector('#mealList');
+        await page.select('#mealList', '13');
+        await page.click('#checkQuantityBtn');
+        await page.waitForFunction(
+            'document.getElementById("mealQuantityResult").textContent.includes("complete meals")',
+            { timeout: 5000 }
+        );
+        const resultText = await page.evaluate(() => document.getElementById('mealQuantityResult').textContent);
+        expect(resultText).toMatch(/You can make 6 complete meals with the current stock./);
+    });
 
 });

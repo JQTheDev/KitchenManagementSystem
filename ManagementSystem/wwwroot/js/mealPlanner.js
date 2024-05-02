@@ -21,24 +21,24 @@ async function fetchIngredients() {
     try {
         const response = await fetch("https://localhost:44342/api/Ingredients/Empty");
         if (!response.ok) {
-            throw new Error("Failed to fetch ingredients with zero stock.");
+            throw new Error("Failed to fetch ingredients with low stock.");
         }
         const ingredients = await response.json();
         const container = document.getElementById("emptyIngredients");
         const ingredientContainer = document.getElementById("styling");
 
-        container.innerHTML = ''; // Clear previous entries
+        container.innerHTML = '';
 
         if (ingredients.length > 0) {
-            ingredientContainer.style.display = "block"; // Only display if there are ingredients with zero stock
+            ingredientContainer.style.display = "block";
             ingredients.forEach(ingredient => {
                 const item = document.createElement("li");
                 item.textContent = ingredient.name;
-                item.style.color = 'red'; // Make the text red
+                item.style.color = 'red';
                 container.appendChild(item);
             });
         } else {
-            ingredientContainer.style.display = "none"; // Hide if no zero stock ingredients
+            ingredientContainer.style.display = "none";
         }
     } catch (error) {
         console.error('Error:', error);
@@ -50,7 +50,7 @@ async function fetchIngredients() {
 
 function populateMeals(meals) {
     const selectElement = document.getElementById('mealSelect');
-    meals.sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by default
+    meals.sort((a, b) => a.name.localeCompare(b.name));
 
     meals.forEach(meal => {
         const option = document.createElement('option');
@@ -70,7 +70,6 @@ function addSelectedMeal() {
         return;
     }
 
-    // Check if the meal is already in the selectedMeals array
     const isMealAlreadySelected = selectedMeals.some(meal => meal.mealId === mealId);
     if (isMealAlreadySelected) {
         alert('This meal has already been added.');
@@ -93,7 +92,7 @@ function addSelectedMeal() {
 
 function updateSelectedMealsList() {
     const listElement = document.getElementById('selectedMeals');
-    listElement.innerHTML = ''; // Clear current list
+    listElement.innerHTML = '';
 
     selectedMeals.forEach(meal => {
         const listItem = document.createElement('li');
@@ -105,13 +104,14 @@ function updateSelectedMealsList() {
 async function validateMeal(mealId) {
     try {
         const response = await fetch(`https://localhost:44342/api/Meals/ValidateMeal/${mealId}`);
-        const data = await response.json(); // Decode JSON to access detailed response
+        const data = await response.json(); 
 
         if (!response.ok) {
-            alert(`Error: ${data.message}`); // Show detailed error message
+            alert(`Error: ${data.message}`);
             return false;
         }
-        return true; // Meal is valid
+
+        return true;
     } catch (error) {
         console.error("Error during meal validation:", error);
         alert("An error occurred while validating the meal.");
@@ -168,7 +168,6 @@ async function calculateMeals() {
         });
 
         if (!selectionResponse.ok) {
-
             const errorResponse = await selectionResponse.json();
             const errorMessage = errorResponse.message || "Error selecting meals";
             alert(errorMessage);
@@ -200,7 +199,7 @@ function updateMealResultsTable(meals) {
             row.insertCell(3).textContent = `$${meal.totalPrice.toFixed(2)}`;
         });
     } else {
-        // Handle case where meals is not an array
+        
         console.error('Expected an array of meals, but received:', meals);
     }
 }
