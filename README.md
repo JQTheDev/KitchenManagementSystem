@@ -1,6 +1,6 @@
 Kitchen Management System
 
-Tech Stack
+Tech Stack:
 C#,
 MVC .Net Core,
 Visual Studio 2022 .Net 8,
